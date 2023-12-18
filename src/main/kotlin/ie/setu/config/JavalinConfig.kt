@@ -17,7 +17,6 @@ class JavalinConfig
         return app
     }
 
-
     private fun registerRoutes(app: Javalin)
     {
         app.routes {
