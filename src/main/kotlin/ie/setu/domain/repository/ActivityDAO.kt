@@ -54,4 +54,35 @@ class ActivityDAO
             }
         }
     }
+
+    fun update(id: Int, activity: Activity)
+    {
+        transaction {
+            Activities.update({ Activities.id eq id })
+            {
+                it[description] = activity.description
+                it[duration] = activity.duration
+                it[calories] = activity.calories
+                it[started] = activity.started
+            }
+        }
+    }
+
+    fun delete(id: Int)
+    {
+        transaction {
+            Activities.deleteWhere {
+                Activities.id eq id
+            }
+        }
+    }
+
+    fun deleteAll(userId: Int)
+    {
+        transaction {
+            Activities.deleteWhere {
+                Activities.userId eq userId
+            }
+        }
+    }
 }

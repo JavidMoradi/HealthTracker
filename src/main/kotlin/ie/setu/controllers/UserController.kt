@@ -6,7 +6,7 @@ import ie.setu.domain.repository.UserDAO
 import io.javalin.http.Context
 import ie.setu.domain.User
 
-object HealthTrackerController
+object UserController
 {
     private val userDao = UserDAO()
 
