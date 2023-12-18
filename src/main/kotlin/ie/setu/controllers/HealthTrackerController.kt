@@ -43,14 +43,16 @@ object HealthTrackerController
 
     fun deleteUser(ctx: Context)
     {
-        val user = userDao.delete(ctx.pathParam("user-id").toInt())
+        userDao.delete(ctx.pathParam("user-id").toInt())
     }
 
     fun updateUser(ctx: Context)
     {
         val mapper = jacksonObjectMapper()
         val user = mapper.readValue<User>(ctx.body())
-        userDao.update(ctx.pathParam("user-id").toInt(), user)
-        ctx.json(user)
+        userDao.update(
+            id = ctx.pathParam("user-id").toInt(),
+            user = user
+        )
     }
 }
