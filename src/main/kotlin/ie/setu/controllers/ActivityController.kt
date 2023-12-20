@@ -1,13 +1,12 @@
 package ie.setu.controllers
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.Activity
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonObjectMapper
+import ie.setu.utils.jsonToObject
 import io.javalin.http.Context
 
 object ActivityController
@@ -57,7 +56,7 @@ object ActivityController
 
     fun updateActivity(ctx: Context)
     {
-        val mapper = jacksonObjectMapper()
+        val mapper = jsonObjectMapper()
         val activity = mapper.readValue<Activity>(ctx.body())
         activityDAO.update(
             id = ctx.pathParam("activity-id").toInt(),
