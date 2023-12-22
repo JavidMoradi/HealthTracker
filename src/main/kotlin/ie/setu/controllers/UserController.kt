@@ -1,11 +1,9 @@
 package ie.setu.controllers
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import ie.setu.domain.repository.UserDAO
-import io.javalin.http.Context
 import ie.setu.domain.User
+import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
+import io.javalin.http.Context
 
 object UserController {
     private val userDao = UserDAO()
@@ -39,7 +37,6 @@ object UserController {
             ctx.status(201)
         }
     }
-
 
     fun getUserByEmail(ctx: Context) {
         val user = userDao.findByEmail(ctx.pathParam("email"))
