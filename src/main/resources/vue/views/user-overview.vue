@@ -5,12 +5,7 @@
         <div class="row">
           <div class="col-6">Users</div>
           <div class="col" align="right">
-            <button
-              rel="tooltip"
-              title="Add"
-              class="btn btn-info btn-simple btn-link"
-              @click="hideForm = !hideForm"
-            >
+            <button rel="tooltip" title="Add" class="btn btn-info btn-simple btn-link" @click="hideForm = !hideForm">
               <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
           </div>
@@ -22,66 +17,52 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-name">Name</span>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              v-model="formData.name"
-              name="name"
-              placeholder="Name"
-            />
+            <input type="text" class="form-control" v-model="formData.name" name="name" placeholder="Name" />
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-email">Email</span>
             </div>
-            <input
-              type="email"
-              class="form-control"
-              v-model="formData.email"
-              name="email"
-              placeholder="Email"
-            />
+            <input type="email" class="form-control" v-model="formData.email" name="email" placeholder="Email" />
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-name">Gender</span>
+            </div>
+            <input type="text" class="form-control" v-model="formData.gender" name="gender" placeholder="male/female" />
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-name">Height</span>
+            </div>
+            <input type="number" class="form-control" v-model="formData.height" name="height" placeholder="Height" />
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-name">Weight</span>
+            </div>
+            <input type="number" class="form-control" v-model="formData.weight" name="weight" placeholder="Weight" />
           </div>
         </form>
-        <button
-          rel="tooltip"
-          title="Update"
-          class="btn btn-info btn-simple btn-link"
-          @click="addUser()"
-        >
+        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addUser()">
           Add User
         </button>
       </div>
     </div>
     <div class="list-group list-group-flush">
-      <div
-        class="list-group-item d-flex align-items-start"
-        v-for="(user, index) in users"
-        v-bind:key="index"
-      >
+      <div class="list-group-item d-flex align-items-start" v-for="(user, index) in users" v-bind:key="index">
         <div class="mr-auto p-2">
-          <span
-            ><a :href="`/users/${user.id}`">
-              {{ user.name }} ({{ user.email }})</a
-            ></span
-          >
+          <span><a :href="`/users/${user.id}`">
+              {{ user.name }} ({{ user.email }})</a></span>
         </div>
         <div class="p2">
           <a :href="`/users/${user.id}`">
-            <button
-              rel="tooltip"
-              title="Update"
-              class="btn btn-info btn-simple btn-link"
-            >
+            <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </button>
           </a>
-          <button
-            rel="tooltip"
-            title="Delete"
-            class="btn btn-info btn-simple btn-link"
-            @click="deleteUser(user, index)"
-          >
+          &nbsp;
+          <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link" @click="deleteUser(user, index)">
             <i class="fas fa-trash" aria-hidden="true"></i>
           </button>
         </div>
@@ -131,6 +112,29 @@ app.component("user-overview", {
     },
     addUser: function () {
       const url = `/api/users`;
+
+      if (!this.formData.name || this.formData.name === "" || this.formData.email === "" || this.formData.gender === "" ||
+        !this.formData.email || !this.formData.gender || !this.formData.height || !this.formData.weight) {
+        Swal.fire({
+          position: "top",
+          icon: "warning",
+          title: "No field can be left empty!",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        return
+      }
+      else if (this.formData.height <= 0 || this.formData.weight <= 0) {
+        Swal.fire({
+          position: "top",
+          icon: "warning",
+          title: "Please provide meaningful values!",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        return
+      }
+
       axios
         .post(url, {
           name: this.formData.name,
@@ -139,6 +143,21 @@ app.component("user-overview", {
         .then((response) => {
           this.users.push(response.data);
           this.hideForm = true;
+          let userId = response.data.id
+
+          axios
+            .post("api/userTrait", {
+              userId: userId,
+              gender: this.formData.gender,
+              height: this.formData.height,
+              weight: this.formData.weight
+            })
+            .then(res => {
+              console.log(res);
+            })
+            .catch(e => {
+              console.log(e);
+            })
         })
         .catch((error) => {
           console.log(error);

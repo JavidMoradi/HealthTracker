@@ -40,7 +40,7 @@ object UserEdibleController {
 
     fun addUserEdible(ctx: Context) {
         val userEdible: UserEdible = jsonToObject(ctx.body())
-        val userEdibleId = userEdible.userId
+        val userEdibleId = userEdibleDAO.save(userEdible)
         if (userEdibleId != null) {
             userEdible.userId = userEdibleId
             ctx.json(userEdible)

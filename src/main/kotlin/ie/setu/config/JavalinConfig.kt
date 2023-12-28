@@ -32,6 +32,8 @@ class JavalinConfig {
             get("/users", VueComponent("<user-overview></user-overview>"))
             get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
             get("/users/{user-id}/activities", VueComponent("<user-activity-overview></user-activity-overview>"))
+            get("/activities", VueComponent("<activity-overview></activity-overview>"))
+            get("/edibles", VueComponent("<edible-overview></edible-overview>"))
 
             path("/api/users") {
                 get(UserController::getAllUsers)
@@ -48,14 +50,15 @@ class JavalinConfig {
                 path("email/{email}") {
                     get(UserController::getUserByEmail)
                 }
-                path("userTrait") {
-                    get(UserTraitController::getAll)
-                    post(UserTraitController::addUserTrait)
-                    path("{user-id}") {
-                        get(UserTraitController::findByUserId)
-                        delete(UserTraitController::deleteUserTrait)
-                        patch(UserTraitController::updateUserTrait)
-                    }
+            }
+
+            path("api/userTrait") {
+                get(UserTraitController::getAll)
+                post(UserTraitController::addUserTrait)
+                path("{user-id}") {
+                    get(UserTraitController::findByUserId)
+                    delete(UserTraitController::deleteUserTrait)
+                    patch(UserTraitController::updateUserTrait)
                 }
             }
 
@@ -72,7 +75,7 @@ class JavalinConfig {
             path("/api/edibles") {
                 get(EdibleController::getAllEdibles)
                 post(EdibleController::addEdible)
-                path("edible-id") {
+                path("{edible-id}") {
                     get(EdibleController::getEdibleById)
                     delete(EdibleController::deleteEdible)
                     patch(EdibleController::updateEdible)
@@ -82,12 +85,12 @@ class JavalinConfig {
             path("api/userEdible") {
                 get(UserEdibleController::getAll)
                 post(UserEdibleController::addUserEdible)
-                path("userEdible-userid") {
+                path("user/{userEdible-userid}") {
                     get(UserEdibleController::getUserEdibleByUserId)
                     patch(UserEdibleController::updateUserEdibleByUserId)
                     delete(UserEdibleController::deleteUserEdibleByUserId)
                 }
-                path("userEdible-edibleid") {
+                path("edible/{userEdible-edibleid}") {
                     get(UserEdibleController::getUserEdibleByEdibleId)
                     patch(UserEdibleController::updateUserEdibleByEdibleId)
                     delete(UserEdibleController::deleteUserEdibleByEdibleId)

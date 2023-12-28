@@ -11,30 +11,36 @@ class UserEdibleDAO {
         val userEdibleList: ArrayList<UserEdible> = arrayListOf()
 
         transaction {
-            UserEdibles.selectAll().map { mapToUserEdible(it) }
+            UserEdibles.selectAll().map { userEdibleList.add(mapToUserEdible(it)) }
         }
 
         return userEdibleList
     }
 
-    fun findByUserId(userId: Int): UserEdible? {
-        return transaction {
+    fun findByUserId(userId: Int): ArrayList<UserEdible> {
+        val userEdibleList: ArrayList<UserEdible> = arrayListOf()
+
+        transaction {
             UserEdibles.select() {
                 UserEdibles.userId eq userId
             }
-                    .map { mapToUserEdible(it) }
-                    .firstOrNull()
+                    .map { userEdibleList.add(mapToUserEdible(it)) }
         }
+
+        return userEdibleList
     }
 
-    fun findByEdibleId(edibleId: Int): UserEdible? {
-        return transaction {
+    fun findByEdibleId(edibleId: Int): ArrayList<UserEdible> {
+        val userEdibleList: ArrayList<UserEdible> = arrayListOf()
+
+        transaction {
             UserEdibles.select() {
                 UserEdibles.edibleId eq edibleId
             }
-                    .map { mapToUserEdible(it) }
-                    .firstOrNull()
+                    .map { userEdibleList.add(mapToUserEdible(it)) }
         }
+
+        return userEdibleList
     }
 
     fun save(userEdible: UserEdible): Int {
@@ -42,6 +48,7 @@ class UserEdibleDAO {
             UserEdibles.insert {
                 it[userId] = userEdible.userId
                 it[edibleId] = userEdible.edibleId
+                it[grams] = userEdible.grams.toBigDecimal()
             } get UserEdibles.userId
         }
     }
@@ -52,6 +59,7 @@ class UserEdibleDAO {
             {
                 it[UserEdibles.userId] = userEdible.userId
                 it[UserEdibles.edibleId] = userEdible.edibleId
+                it[grams] = userEdible.grams.toBigDecimal()
             }
         }
     }
@@ -62,6 +70,7 @@ class UserEdibleDAO {
             {
                 it[UserEdibles.userId] = userEdible.userId
                 it[UserEdibles.edibleId] = userEdible.edibleId
+                it[grams] = userEdible.grams.toBigDecimal()
             }
         }
     }

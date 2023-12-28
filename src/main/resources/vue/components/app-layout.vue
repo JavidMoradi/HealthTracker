@@ -4,15 +4,8 @@
       <!-- Start of navbar -->
       <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="/">Home</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -25,6 +18,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/activities">Activities</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/edibles">Foods</a>
             </li>
           </ul>
         </div>

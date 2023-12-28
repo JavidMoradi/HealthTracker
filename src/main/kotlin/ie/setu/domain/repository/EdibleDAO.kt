@@ -31,6 +31,7 @@ class EdibleDAO {
         return transaction {
             Edibles.insert {
                 it[calories] = edible.calories
+                it[name] = edible.name
                 it[protein] = edible.protein.toBigDecimal()
                 it[carb] = edible.carb.toBigDecimal()
                 it[fat] = edible.fat.toBigDecimal()
@@ -50,6 +51,7 @@ class EdibleDAO {
         return transaction {
             Edibles.update({ Edibles.id eq id }) {
                 it[calories] = edible.calories
+                it[name] = edible.name
                 it[protein] = edible.protein.toBigDecimal()
                 it[carb] = edible.carb.toBigDecimal()
                 it[fat] = edible.fat.toBigDecimal()
