@@ -102,7 +102,7 @@ class ActivityControllerTest {
             val addedResponse = addActivity(validDesc, validDuration, validCalories, validStartDate, validUserId)
             val addedActivity: Activity = jsonToObject(addedResponse.body.toString())
 
-            //assertEquals(204, deleteActivity(addedActivity.id).status)
+            assertEquals(204, deleteActivity(addedActivity.id).status)
         }
 
         @Test
@@ -120,27 +120,28 @@ class ActivityControllerTest {
 
     // HELPER FUNCTIONS
     private fun retrieveAllActivities(): HttpResponse<String> {
-        return Unirest.get(origin + "/api/activities").asString()
+        return Unirest.get("$origin/api/activities").asString()
     }
 
     private fun retrieveActivityByUserId(userId: Int): HttpResponse<String> {
-        return Unirest.get(origin + "/api/users/" + userId + "/activities").asString()
+        return Unirest.get("$origin/api/users/$userId/activities").asString()
     }
 
     private fun retrieveActivityByActivityId(id: Int): HttpResponse<String> {
-        return Unirest.get(origin + "/api/activities/" + id).asString()
+        return Unirest.get("$origin/api/activities/$id").asString()
     }
 
+    //    THERE IS A PROBLEM WITH THIS ADD ACTIVITY FUNCTION
     private fun addActivity(description: String, duration: Double, calories: Int, started: DateTime, userId: Int): HttpResponse<JsonNode> {
         return Unirest.post(origin + "/api/activities")
                 .body(
-                        "{\"description\":\"$description\", \"duration\":\"$duration\", \"calories\":\"$calories\", \"started\":\"$started\", \"userId\":\"$userId\"}"
+                        "{\"description\": \"$description\", \"duration\": \"$duration\", \"calories\": \"$calories\", \"started\": \"$started\", \"userId\": \"$userId\"}"
                 )
                 .asJson()
     }
 
     private fun updateActivity(id: Int, description: String, duration: Double, calories: Int, started: DateTime, userId: Int): HttpResponse<JsonNode> {
-        return Unirest.patch(origin + "/api/activities/" + id)
+        return Unirest.patch("$origin/api/activities/$id")
                 .body(
                         "{\"description\":\"$description\", \"duration\":\"$duration\", \"calories\":\"$calories\", \"started\":\"$started\", \"userId\":\"$userId\"}"
                 )
@@ -148,10 +149,10 @@ class ActivityControllerTest {
     }
 
     private fun deleteActivity(id: Int): HttpResponse<String> {
-        return Unirest.delete(origin + "/api/activities/" + id).asString()
+        return Unirest.delete("$origin/api/activities/$id").asString()
     }
 
     private fun deleteActivityByUserId(userId: Int): HttpResponse<String> {
-        return Unirest.delete(origin + "/api/users/" + userId + "/activities").asString()
+        return Unirest.delete("$origin/api/users/$userId/activities").asString()
     }
 }
