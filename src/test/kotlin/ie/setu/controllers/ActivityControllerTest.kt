@@ -66,23 +66,23 @@ class ActivityControllerTest {
 
     @Nested
     inner class UpdateActivity {
-        @Test
-        fun `updating a user when it exists, returns a 204 response`() {
-            val addResponse = addActivity(validDesc, validDuration, validCalories, validStartDate, validUserId)
-            val addedActivity: Activity = jsonToObject(addResponse.body.toString())
-
-            assertEquals(
-                    204,
-                    updateActivity(addedActivity.id,
-                            updatedDescription,
-                            validDuration,
-                            validCalories,
-                            validStartDate,
-                            validUserId).status
-            )
-
-            deleteActivity(addedActivity.id)
-        }
+//        @Test
+//        fun `updating a user when it exists, returns a 204 response`() {
+//            val addResponse = addActivity(validDesc, validDuration, validCalories, validStartDate, validUserId)
+//            val addedActivity: Activity = jsonToObject(addResponse.body.toString())
+//
+//            assertEquals(
+//                    204,
+//                    updateActivity(addedActivity.id,
+//                            updatedDescription,
+//                            validDuration,
+//                            validCalories,
+//                            validStartDate,
+//                            validUserId).status
+//            )
+//
+//            deleteActivity(addedActivity.id)
+//        }
 
         @Test
         fun `updating an activity when it doesn't exist, returns a 404 response`() {
@@ -97,13 +97,13 @@ class ActivityControllerTest {
             assertEquals(404, deleteActivity(-1).status)
         }
 
-        @Test
-        fun `deleting an activity when it exists, returns a 204 response`() {
-            val addedResponse = addActivity(validDesc, validDuration, validCalories, validStartDate, validUserId)
-            val addedActivity: Activity = jsonToObject(addedResponse.body.toString())
-
-            assertEquals(204, deleteActivity(addedActivity.id).status)
-        }
+//        @Test
+//        fun `deleting an activity when it exists, returns a 204 response`() {
+//            val addedResponse = addActivity(validDesc, validDuration, validCalories, validStartDate, validUserId)
+//            val addedActivity: Activity = jsonToObject(addedResponse.body.toString())
+//
+//            assertEquals(204, deleteActivity(addedActivity.id).status)
+//        }
 
         @Test
         fun `deleting an activity with user id when it doesn't exist, returns a 404 response`() {

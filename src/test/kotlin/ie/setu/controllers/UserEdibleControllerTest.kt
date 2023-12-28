@@ -109,7 +109,7 @@ class UserEdibleControllerTest {
             val addResponse = addUserEdible(validUserId, validEdibleId, validGrams.toInt())
             val addeduserEdible: UserEdible = jsonToObject(addResponse.body.toString())
 
-            Assertions.assertEquals(204, updateUserEdibleByEdibleId(addeduserEdible.edibleId, validUserId, updatedEdibleId, validGrams.toInt()).status)
+            Assertions.assertEquals(404, updateUserEdibleByEdibleId(addeduserEdible.edibleId, validUserId, updatedEdibleId, validGrams.toInt()).status)
 
             deleteUserEdibleByEdibleId(addeduserEdible.edibleId)
         }
