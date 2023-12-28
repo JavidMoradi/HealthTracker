@@ -21,6 +21,7 @@ fun mapToActivity(it: ResultRow) = Activity(
 
 fun mapToEdible(it: ResultRow) = Edible(
         id = it[Edibles.id],
+        name = it[Edibles.name],
         calories = it[Edibles.calories],
         protein = it[Edibles.protein].toDouble(),
         carb = it[Edibles.carb].toDouble(),
@@ -38,5 +39,6 @@ fun mapToUserTrait(it: ResultRow) = UserTrait(
 
 fun mapToUserEdible(it: ResultRow) = UserEdible(
         userId = it[UserEdibles.userId],
-        edibleId = it[UserEdibles.edibleId]
+        edibleId = it[UserEdibles.edibleId],
+        grams = it[UserEdibles.grams].toDouble()
 )
