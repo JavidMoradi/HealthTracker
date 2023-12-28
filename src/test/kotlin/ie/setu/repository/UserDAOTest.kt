@@ -18,14 +18,11 @@ val user1 = users[0]
 val user2 = users[1]
 val user3 = users[2]
 
-class UserDAOTest
-{
+class UserDAOTest {
     @Nested
-    inner class CreateUsers
-    {
+    inner class CreateUsers {
         @Test
-        fun `multiple users added to table can be retrieved successfully`()
-        {
+        fun `multiple users added to table can be retrieved successfully`() {
             transaction {
                 // Arrange - create and populate table with three users
                 val userDAO = populateUserTable()
@@ -40,11 +37,9 @@ class UserDAOTest
     }
 
     @Nested
-    inner class ReadUsers
-    {
+    inner class ReadUsers {
         @Test
-        fun `getting all users from a populated table returns all rows`()
-        {
+        fun `getting all users from a populated table returns all rows`() {
             transaction {
                 //Arrange - create and populate table with three users
                 val userDAO = populateUserTable()
@@ -54,8 +49,7 @@ class UserDAOTest
         }
 
         @Test
-        fun `get user by id that doesn't exist, results in no user returned`()
-        {
+        fun `get user by id that doesn't exist, results in no user returned`() {
             transaction {
                 //Arrange - create and populate table with three users
                 val userDAO = populateUserTable()
@@ -65,19 +59,17 @@ class UserDAOTest
         }
 
         @Test
-        fun `get user by id that exists, results in a correct user returned`()
-        {
+        fun `get user by id that exists, results in a correct user returned`() {
             transaction {
                 //Arrange - create and populate table with three users
                 val userDAO = populateUserTable()
                 //Act & Assert
-                assertEquals(null, userDAO.findById(4))
+                assertEquals(user1, userDAO.findById(1))
             }
         }
 
         @Test
-        fun `get all users over empty table returns none`()
-        {
+        fun `get all users over empty table returns none`() {
             transaction {
 
                 //Arrange - create and setup userDAO object
@@ -90,8 +82,7 @@ class UserDAOTest
         }
 
         @Test
-        fun `get user by email that doesn't exist, results in no user returned`()
-        {
+        fun `get user by email that doesn't exist, results in no user returned`() {
             transaction {
 
                 //Arrange - create and populate table with three users
@@ -103,8 +94,7 @@ class UserDAOTest
         }
 
         @Test
-        fun `get user by email that exists, results in correct user returned`()
-        {
+        fun `get user by email that exists, results in correct user returned`() {
             transaction {
 
                 //Arrange - create and populate table with three users
@@ -117,11 +107,9 @@ class UserDAOTest
     }
 
     @Nested
-    inner class UpdateUsers
-    {
+    inner class UpdateUsers {
         @Test
-        fun `updating existing user in table results in successful update`()
-        {
+        fun `updating existing user in table results in successful update`() {
             transaction {
 
                 //Arrange - create and populate table with three users
@@ -135,8 +123,7 @@ class UserDAOTest
         }
 
         @Test
-        fun `updating non-existant user in table results in no updates`()
-        {
+        fun `updating non-existant user in table results in no updates`() {
             transaction {
 
                 //Arrange - create and populate table with three users
@@ -152,11 +139,9 @@ class UserDAOTest
     }
 
     @Nested
-    inner class DeleteUsers
-    {
+    inner class DeleteUsers {
         @Test
-        fun `deleting a non-existant user in table results in no deletion`()
-        {
+        fun `deleting a non-existant user in table results in no deletion`() {
             transaction {
 
                 //Arrange - create and populate table with three users
@@ -170,8 +155,7 @@ class UserDAOTest
         }
 
         @Test
-        fun `deleting an existing user in table results in record being deleted`()
-        {
+        fun `deleting an existing user in table results in record being deleted`() {
             transaction {
 
                 //Arrange - create and populate table with three users
@@ -185,8 +169,7 @@ class UserDAOTest
         }
     }
 
-    internal fun populateUserTable(): UserDAO
-    {
+    internal fun populateUserTable(): UserDAO {
         SchemaUtils.create(Users)
         val userDAO = UserDAO()
         userDAO.save(user1)
@@ -195,13 +178,11 @@ class UserDAOTest
         return userDAO
     }
 
-    companion object
-    {
+    companion object {
         // Make a connection to a local, in memory H2 database.
         @BeforeAll
         @JvmStatic
-        internal fun setupInMemoryDatabaseConnection()
-        {
+        internal fun setupInMemoryDatabaseConnection() {
             Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver", user = "root", password = "")
         }
     }

@@ -20,7 +20,7 @@ object UserEdibleController {
 
     fun getUserEdibleByUserId(ctx: Context) {
         val userEdible = userEdibleDAO.findByUserId(ctx.pathParam("userEdible-userid").toInt())
-        if (userEdible != null) {
+        if (userEdible.size != 0) {
             ctx.json(userEdible)
             ctx.status(200)
         } else {
@@ -30,7 +30,7 @@ object UserEdibleController {
 
     fun getUserEdibleByEdibleId(ctx: Context) {
         val userEdible = userEdibleDAO.findByEdibleId(ctx.pathParam("userEdible-edibleid").toInt())
-        if (userEdible != null) {
+        if (userEdible.size != 0) {
             ctx.json(userEdible)
             ctx.status(200)
         } else {
