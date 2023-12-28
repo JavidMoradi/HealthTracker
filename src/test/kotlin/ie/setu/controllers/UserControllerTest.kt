@@ -2,11 +2,14 @@ package ie.setu.controllers
 
 import ie.setu.config.DbConfig
 import ie.setu.domain.User
+import ie.setu.domain.db.Users
 import ie.setu.helpers.*
 import ie.setu.utils.jsonToObject
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 import kong.unirest.Unirest
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Nested
@@ -55,16 +58,22 @@ class UserControllerTest {
 
         @Test
         fun `getting a user by id when id exists, returns a 200 response`() {
-            //Arrange - add the user
-            val addResponse = addUser(validName, validEmail)
-            val addedUser: User = jsonToObject(addResponse.body.toString())
+            transaction {
+                //Arrange – create a fake users table in the h2 database
+                SchemaUtils.create(Users)
+                // Arrange - add the user to the h2 database
+                val addResponse = addUser(validName, validEmail)
+                assertEquals(201, addResponse.status)
 
-            //Assert - retrieve the added user from the database and verify return code
-            val retrieveResponse = retrieveUserById(addedUser.id)
-            assertEquals(200, retrieveResponse.status)
+                //Assert - retrieve the user from the fake database
+                val retrieveResponse = retrieveUserByEmail(validEmail)
 
-            //After - restore the db to previous state by deleting the added user
-            deleteUser(addedUser.id)
+                //Assert - verify the return code and the contents of the retrieved user
+                assertEquals(200, retrieveResponse.status)
+                val retrievedUser: User = jsonToObject(addResponse.body.toString())
+                assertEquals(validEmail, retrievedUser.email)
+                assertEquals(validName, retrievedUser.name)
+            }
         }
 
         @Test
